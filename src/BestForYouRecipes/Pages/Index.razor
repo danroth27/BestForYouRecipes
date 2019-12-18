@@ -1,0 +1,19 @@
+﻿@page "/"
+@inject IRecipesStore RecipesStore
+
+<div>
+    @foreach (var recipe in recipes)
+    {
+        <RecipeCard Image="recipe.CardImageUrl" Name="@recipe.Name" Source="@recipe.Source" />
+    }
+</div>
+
+
+@code {
+    IEnumerable<Recipe> recipes;
+
+    protected override async Task OnInitializedAsync()
+    {
+        recipes = await RecipesStore.GetRecipes();
+    }
+}
