@@ -8,9 +8,13 @@ namespace BestForYouRecipes
 {
     public class Review
     {
-        [Range(0, 5)]
+        [Required]
+        [Range(1, 5)]
         public double Rating { get; set; }
 
+
+        [Required]
+        [StringLength(50, ErrorMessage = "Text is too long.")]
         public string Text { get; set; }
     }
 }

@@ -254,6 +254,10 @@ button:active {
     margin-bottom: 10px;
 }
 
+input.invalid, textarea.invalid {
+    border: 1px solid red;
+}
+
 .reviews .rating
 {
     display: none;

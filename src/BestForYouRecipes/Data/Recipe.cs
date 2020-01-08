@@ -16,7 +16,7 @@ namespace BestForYouRecipes
         public int CookTime { get; set; }
         public int Servings { get; set; }
         public string Comments { get; set; }
-        public Review[] Reviews { get; set; } = new Review[0];
+        public IList<Review> Reviews { get; set; } = new List<Review>();
         public double AverageRating => Math.Round(Reviews.Select(review => review.Rating).DefaultIfEmpty(0).Average(), 1);
         public string Instructions { get; set; }
         public string[] Ingredients { get; set; }

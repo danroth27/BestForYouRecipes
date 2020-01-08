@@ -1,4 +1,4 @@
-﻿<div class="star-rating" style="@($"--star-rating: {Rating};")">
+﻿<div class="@CssClass" style="@($"--star-rating: {Rating};")">
     @if (!RatingChanged.HasDelegate)
     {
         <span class="stars">☆☆☆☆☆</span>
@@ -6,20 +6,22 @@
     }
     else
     {
-        <input type="radio" id="star5" name="star-rating" value="5" />
-        <label for="star5"></label>
-        <input type="radio" id="star4" name="star-rating" value="4" />
-        <label for="star4"></label>
-        <input type="radio" id="star3" name="star-rating" value="3" />
-        <label for="star3"></label>
-        <input type="radio" id="star2" name="star-rating" value="2" />
-        <label for="star2"></label>
-        <input type="radio" id="star1" name="star-rating" value="1" />
-        <label for="star1"></label>
+        for (int i = 5; i > 0; i--)
+        {
+            var id = $"star{i}";
+            var value = i;
+            <input type="radio" id="@id" name="star-rating" value="@value" checked="@(Rating == value)" @onchange="OnChange" />
+            <label for="@id"></label>
+        }
     }
 </div>
 
 @code {
+    FieldIdentifier fieldIdentifier;
+
+    [CascadingParameter]
+    EditContext EditContext { get; set; }
+
     [Parameter]
     public double Rating { get; set; }
 
@@ -27,5 +29,13 @@
     public EventCallback<double> RatingChanged { get; set; }
 
     [Parameter]
-    public string Legend { get; set; }
+    public Expression<Func<double>> For { get; set; }
+
+    string CssClass => $"star-rating {EditContext?.FieldCssClass(fieldIdentifier) ?? ""}";
+
+    Task OnChange(ChangeEventArgs args)
+    {
+        Rating = double.Parse(args.Value.ToString());
+        return RatingChanged.InvokeAsync(Rating);
+    }
 }

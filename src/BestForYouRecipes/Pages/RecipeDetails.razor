@@ -41,18 +41,20 @@
             }
             <div class="reviews">
                 <h2>Reviews</h2>
-                <div class="review-editor">
+                <EditForm class="review-editor" Model="review" OnValidSubmit="OnSubmitReview">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
                     <StarRating @bind-Rating="review.Rating" />
-                    <textarea rows="5" placeholder="Write a review" @bind="review.Text" />
-                    <button>Submit</button>
-                </div>
-                @for (int i = 0; i < recipe.Reviews.Length; i++)
+                    <InputTextArea rows="5" placeholder="Write a review" @bind-Value="review.Text" />
+                    <button type="submit">Submit</button>
+                </EditForm>
+                @for (int i = 0; i < recipe.Reviews.Count; i++)
                 {
                     var review = recipe.Reviews[i];
                     <div class="review">
                         <StarRating Rating="review.Rating" />
                         <p>@review.Text</p>
-                        @if (i < recipe.Reviews.Length - 1)
+                        @if (i < recipe.Reviews.Count - 1)
                         {
                             <hr />
                         }
@@ -74,5 +76,10 @@
     {
         recipe = await RecipesStore.GetRecipe(RecipeId);
         review = new Review();
+    }
+
+    async Task OnSubmitReview()
+    {
+
     }
 }
