@@ -38,5 +38,10 @@ namespace BestForYouRecipes
             recipes.TryGetValue(id, out var recipe);
             return Task.FromResult(recipe);
         }
+
+        public Task<Recipe> UpdateRecipe(Recipe recipe)
+        {
+            return Task.FromResult(recipe);
+        }
     }
 }

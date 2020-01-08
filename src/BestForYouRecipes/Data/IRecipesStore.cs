@@ -8,5 +8,7 @@ namespace BestForYouRecipes
         Task<IEnumerable<Recipe>> GetRecipes(string query = "");
 
         Task<Recipe> GetRecipe(string id);
+
+        Task<Recipe> UpdateRecipe(Recipe recipe);
     }
 }

@@ -254,8 +254,13 @@ button:active {
     margin-bottom: 10px;
 }
 
-input.invalid, textarea.invalid {
+input.invalid, textarea.invalid, div.invalid {
     border: 1px solid red;
+}
+
+.validation-errors {
+    color: red;
+    font-size: 0.8em;
 }
 
 .reviews .rating

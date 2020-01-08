@@ -15,7 +15,7 @@
             @recipe.SourceShort | Servings: @recipe.Servings
         </div>
         <div class="star-rating-avg">
-            <StarRating Rating="recipe.AverageRating" />
+            <StarRating Value="recipe.AverageRating" />
         </div>
         <div class="recipe-banner">
             <img src="@recipe.BannerImageUrl" />
@@ -33,7 +33,10 @@
                 }
             </ul>
             <h2>Instructions</h2>
-            <p>@recipe.Instructions</p>
+            @foreach (var instruction in recipe.Instructions.Split("\r\n"))
+            {
+                <p>@instruction</p>
+            }
             <h2>Tags</h2>
             @foreach (var tag in recipe.Tags)
             {
@@ -44,7 +47,7 @@
                 <EditForm class="review-editor" Model="review" OnValidSubmit="OnSubmitReview">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
-                    <StarRating @bind-Rating="review.Rating" />
+                    <StarRating @bind-Value="review.Rating" />
                     <InputTextArea rows="5" placeholder="Write a review" @bind-Value="review.Text" />
                     <button type="submit">Submit</button>
                 </EditForm>
@@ -52,7 +55,7 @@
                 {
                     var review = recipe.Reviews[i];
                     <div class="review">
-                        <StarRating Rating="review.Rating" />
+                        <StarRating Value="review.Rating" />
                         <p>@review.Text</p>
                         @if (i < recipe.Reviews.Count - 1)
                         {
@@ -78,8 +81,10 @@
         review = new Review();
     }
 
-    async Task OnSubmitReview()
+    Task OnSubmitReview()
     {
-
+        recipe.Reviews.Insert(0, review);
+        review = new Review();
+        return RecipesStore.UpdateRecipe(recipe);
     }
 }

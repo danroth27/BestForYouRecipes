@@ -40,10 +40,11 @@ namespace BestForYouRecipes
 
         public IEnumerable<Recipe> Search(string query)
         {
-            return query.ToLower().Split().SelectMany(term =>
-                searchIndex.TryGetValue(term, out var termCounts) ?
-                termCounts :
-                Enumerable.Empty<(string RecipeId, int Count)>())
+            return query.ToLower().Split()
+                .Where(term => !string.IsNullOrWhiteSpace(term))
+                .SelectMany(term => searchIndex.Keys
+                    .Where(key => key.StartsWith(term))
+                    .SelectMany(key => searchIndex[key]))
                 .GroupBy(termCount => termCount.RecipeId, termCount => termCount.Count)
                 .OrderByDescending(termCounts => termCounts.Sum())
                 .Select(termCounts => recipes[termCounts.Key]);

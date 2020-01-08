@@ -14,7 +14,7 @@ namespace BestForYouRecipes
 
 
         [Required]
-        [StringLength(50, ErrorMessage = "Text is too long.")]
+        [StringLength(50, ErrorMessage = "Text must be no more than 50 characters.")]
         public string Text { get; set; }
     }
 }
