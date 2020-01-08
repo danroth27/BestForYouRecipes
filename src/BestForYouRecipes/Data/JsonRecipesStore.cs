@@ -10,6 +10,7 @@ namespace BestForYouRecipes
     public class JsonRecipesStore : IRecipesStore
     {
         IDictionary<string, Recipe> recipes;
+        InMemorySearchProvider searchProvider;
 
         public JsonRecipesStore()
         {
@@ -20,11 +21,22 @@ namespace BestForYouRecipes
                 AllowTrailingCommas = true
             };
             recipes = JsonSerializer.Deserialize<Dictionary<string, Recipe>>(json, jsonOptions);
+            searchProvider = new InMemorySearchProvider(recipes);
         }
 
-        public Task<IEnumerable<Recipe>> GetRecipes()
+        public Task<IEnumerable<Recipe>> GetRecipes(string query)
         {
-            return Task.FromResult<IEnumerable<Recipe>>(recipes.Values);
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                return Task.FromResult<IEnumerable<Recipe>>(recipes.Values);
+            }
+            return Task.FromResult(searchProvider.Search(query));
+        }
+
+        public Task<Recipe> GetRecipe(string id)
+        {
+            recipes.TryGetValue(id, out var recipe);
+            return Task.FromResult(recipe);
         }
     }
 }

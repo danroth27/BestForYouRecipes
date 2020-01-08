@@ -5,6 +5,8 @@ namespace BestForYouRecipes
 {
     public interface IRecipesStore
     {
-        Task<IEnumerable<Recipe>> GetRecipes();
+        Task<IEnumerable<Recipe>> GetRecipes(string query = "");
+
+        Task<Recipe> GetRecipe(string id);
     }
 }

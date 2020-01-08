@@ -1,35 +1,49 @@
 {
-    "4": {
-        "id": "4",
-        "name": "Strawberries Romanov (La Madeleine copycat)",
-        "source": "http:\/\/cookeatshare.com\/recipes\/la-madeleine-s-strawberries-romanov-318025",
-        "preptime": 0,
-        "waittime": 0,
-        "cooktime": 0,
-        "servings": 4,
-        "comments": "",
-        "calories": 0,
-        "fat": 0,
-        "satfat": 0,
-        "carbs": 0,
-        "fiber": 0,
-        "sugar": 0,
-        "protein": 0,
-        "instructions": "Wash strawberries and cut the tops off. Let strawberries drain.  Mix together heavy whipping cream, powdered sugar, and the brandy. Beat with a mixer till this becomes thick.  Place strawberries into glasses and spoon over the sauce.\r\n",
-        "ingredients": [
-            "2 tbsp powdered sugar\r",
-            "1\/2 pt heavy whipping cream\r",
-            "1 lb strawberries, (2 pints)\r",
-            "4 tbsp brandy"
-        ],
-        "tags": [
-            "fruit",
-            "dessert",
-            "strawberries",
-            "copycat",
-            "untried"
-        ]
-    },
+  "4": {
+    "id": "4",
+    "name": "Strawberries Romanov (La Madeleine copycat)",
+    "source": "http:\/\/cookeatshare.com\/recipes\/la-madeleine-s-strawberries-romanov-318025",
+    "preptime": 0,
+    "waittime": 0,
+    "cooktime": 0,
+    "servings": 4,
+    "comments": "",
+    "reviews": [
+      {
+        "rating": 2,
+        "text": "Recipe instructions are not complete."
+      },
+      {
+        "rating": 1,
+        "text": "Tastes like mud."
+      },
+      {
+        "rating": 5,
+        "text": "Delicious!"
+      }
+    ],
+    "calories": 0,
+    "fat": 0,
+    "satfat": 0,
+    "carbs": 0,
+    "fiber": 0,
+    "sugar": 0,
+    "protein": 0,
+    "instructions": "Wash strawberries and cut the tops off. Let strawberries drain.  Mix together heavy whipping cream, powdered sugar, and the brandy. Beat with a mixer till this becomes thick.  Place strawberries into glasses and spoon over the sauce.\r\n",
+    "ingredients": [
+      "2 tbsp powdered sugar\r",
+      "1\/2 pt heavy whipping cream\r",
+      "1 lb strawberries, (2 pints)\r",
+      "4 tbsp brandy"
+    ],
+    "tags": [
+      "fruit",
+      "dessert",
+      "strawberries",
+      "copycat",
+      "untried"
+    ]
+  },
     "5": {
         "id": "5",
         "name": "Tomato Basil Soup (La Madeleine copycat)",
@@ -39,6 +53,20 @@
         "cooktime": 0,
         "servings": 4,
         "comments": "",
+        "reviews": [
+            {
+                "rating": 5,
+                "text": "Super tasty soup and so easy to make! This is a perfect weeknight dinner."
+            },
+            {
+                "rating": 4,
+                "text": "This was an easy meal and pretty tasty."
+            },
+            {
+                "rating": 5,
+                "text": "One of my favorties!"
+            }
+        ],
         "calories": 0,
         "fat": 0,
         "satfat": 0,

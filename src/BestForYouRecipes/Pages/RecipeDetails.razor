@@ -1,0 +1,79 @@
+﻿@page "/{recipeId}"
+@inject IRecipesStore RecipesStore
+
+<a class="back-link" href="/">←Back to all recipes</a>
+
+<div class="recipe">
+    @if (recipe == null)
+    {
+        <h1>Recipe not found!</h1>
+    }
+    else
+    {
+        <h1>@recipe.Name</h1>
+        <div class="source-and-servings">
+            @recipe.SourceShort | Servings: @recipe.Servings
+        </div>
+        <div class="star-rating-avg">
+            <StarRating Rating="recipe.AverageRating" />
+        </div>
+        <div class="recipe-banner">
+            <img src="@recipe.BannerImageUrl" />
+        </div>
+        <div class="recipe-details">
+            <h2>Ingredients</h2>
+            <ul>
+                @for (int i = 0; i < recipe.Ingredients.Length; i++)
+                {
+                    string id = $"ingredient{i}";
+                    <li>
+                        <input id="@id" type="checkbox" />
+                        <label for="@id">@recipe.Ingredients[i]</label>
+                    </li>
+                }
+            </ul>
+            <h2>Instructions</h2>
+            <p>@recipe.Instructions</p>
+            <h2>Tags</h2>
+            @foreach (var tag in recipe.Tags)
+            {
+                <span class="tag">@tag</span>
+            }
+            <div class="reviews">
+                <h2>Reviews</h2>
+                <div class="review-editor">
+                    <StarRating @bind-Rating="review.Rating" />
+                    <textarea rows="5" placeholder="Write a review" @bind="review.Text" />
+                    <button>Submit</button>
+                </div>
+
+                @for (int i = 0; i < recipe.Reviews.Length; i++)
+                {
+                    var review = recipe.Reviews[i];
+                    <div class="review">
+                        <StarRating Rating="review.Rating" />
+                        <p>@review.Text</p>
+                        @if (i < recipe.Reviews.Length - 1)
+                        {
+                            <hr />
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    Recipe recipe;
+    Review review;
+
+    [Parameter]
+    public string RecipeId { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        recipe = await RecipesStore.GetRecipe(RecipeId);
+        review = new Review();
+    }
+}

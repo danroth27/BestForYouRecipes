@@ -1,19 +1,31 @@
 ﻿@page "/"
 @inject IRecipesStore RecipesStore
+ 
+<SearchBox placeholder="Search recipes..." SearchQueryChanged="Search" />
 
-<div>
+<ul class="recipe-list">
     @foreach (var recipe in recipes)
     {
-        <RecipeCard Image="recipe.CardImageUrl" Name="@recipe.Name" Source="@recipe.Source" />
+    <li class="recipe-list-item">
+        <a href="@recipe.Id">
+            <RecipeCard Recipe="recipe" />
+        </a>
+    </li>
     }
-</div>
+</ul>
 
 
 @code {
     IEnumerable<Recipe> recipes;
+    string search;
 
     protected override async Task OnInitializedAsync()
     {
         recipes = await RecipesStore.GetRecipes();
+    }
+
+    async Task Search(string query)
+    {
+        recipes = await RecipesStore.GetRecipes(query);
     }
 }
