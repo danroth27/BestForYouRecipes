@@ -21,7 +21,7 @@ namespace BestForYouRecipes
         public string Instructions { get; set; }
         public string[] Ingredients { get; set; }
         public string[] Tags { get; set; }
-        public Uri CardImageUrl => new Uri($"images/cards/{Name} cropped.png", UriKind.Relative);
+        public Uri CardImageUrl => new Uri($"images/cards/{Name}.png", UriKind.Relative);
         public Uri BannerImageUrl => new Uri($"images/banners/{Name} Banner.png", UriKind.Relative);
     }
 }

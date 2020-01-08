@@ -126,6 +126,7 @@ header {
 
     .star-rating .stars {
         position: relative;
+        display: inline-block;
     }
 
     .star-rating .stars::before {

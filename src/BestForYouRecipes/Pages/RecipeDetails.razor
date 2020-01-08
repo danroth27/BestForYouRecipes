@@ -46,7 +46,6 @@
                     <textarea rows="5" placeholder="Write a review" @bind="review.Text" />
                     <button>Submit</button>
                 </div>
-
                 @for (int i = 0; i < recipe.Reviews.Length; i++)
                 {
                     var review = recipe.Reviews[i];
