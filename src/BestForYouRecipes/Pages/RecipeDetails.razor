@@ -15,11 +15,9 @@
             @recipe.SourceShort | Servings: @recipe.Servings
         </div>
         <div class="star-rating-avg">
-            <StarRating Value="recipe.AverageRating" />
+            <StarRating Value="recipe.Reviews.AverageRating()" />
         </div>
-        <div class="recipe-banner">
-            <img src="@recipe.BannerImageUrl" />
-        </div>
+        <img class="recipe-banner" src="@recipe.BannerImageUrl" />
         <div class="recipe-details">
             <h2>Ingredients</h2>
             <ul>
@@ -42,35 +40,14 @@
             {
                 <span class="tag">@tag</span>
             }
-            <div class="reviews">
-                <h2>Reviews</h2>
-                <EditForm class="review-editor" Model="review" OnValidSubmit="OnSubmitReview">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <StarRating @bind-Value="review.Rating" />
-                    <InputTextArea rows="5" placeholder="Write a review" @bind-Value="review.Text" />
-                    <button type="submit">Submit</button>
-                </EditForm>
-                @for (int i = 0; i < recipe.Reviews.Count; i++)
-                {
-                    var review = recipe.Reviews[i];
-                    <div class="review">
-                        <StarRating Value="review.Rating" />
-                        <p>@review.Text</p>
-                        @if (i < recipe.Reviews.Count - 1)
-                        {
-                            <hr />
-                        }
-                    </div>
-                }
-            </div>
+            <StarRatingReviews Reviews="recipe.Reviews" OnSubmitReview="OnSubmitReview" />
         </div>
     }
 </div>
 
 @code {
     Recipe recipe;
-    Review review;
+    // Review review;
 
     [Parameter]
     public string RecipeId { get; set; }
@@ -78,13 +55,11 @@
     protected override async Task OnParametersSetAsync()
     {
         recipe = await RecipesStore.GetRecipe(RecipeId);
-        review = new Review();
     }
 
-    Task OnSubmitReview()
+    Task OnSubmitReview(Review review)
     {
         recipe.Reviews.Insert(0, review);
-        review = new Review();
         return RecipesStore.UpdateRecipe(recipe);
     }
 }

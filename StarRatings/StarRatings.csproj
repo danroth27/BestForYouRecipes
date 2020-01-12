@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RazorLangVersion>3.0</RazorLangVersion>
+    <VersionPrefix>0.1</VersionPrefix>
+    <VersionSuffix>preview.$([System.DateTime]::Now.ToString(`yyMMddHHmmss`))</VersionSuffix>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.0" />
+  </ItemGroup>
+
+</Project>

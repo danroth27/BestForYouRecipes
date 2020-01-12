@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using StarRatings;
 
 namespace BestForYouRecipes
 {
@@ -17,7 +18,6 @@ namespace BestForYouRecipes
         public int Servings { get; set; }
         public string Comments { get; set; }
         public IList<Review> Reviews { get; set; } = new List<Review>();
-        public double AverageRating => Math.Round(Reviews.Select(review => review.Rating).DefaultIfEmpty(0).Average(), 1);
         public string Instructions { get; set; }
         public string[] Ingredients { get; set; }
         public string[] Tags { get; set; }

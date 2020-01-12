@@ -3,6 +3,12 @@
  
 <SearchBox placeholder="Search recipes..." SearchQueryChanged="Search" />
 
+@if (recipes == null)
+{
+    <p>Loading recipes...</p>
+}
+else
+{
 <ul class="recipe-list">
     @foreach (var recipe in recipes)
     {
@@ -13,7 +19,7 @@
     </li>
     }
 </ul>
-
+}
 
 @code {
     IEnumerable<Recipe> recipes;
