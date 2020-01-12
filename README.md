@@ -1,4 +1,4 @@
-# Best For You
+# Best For You recipes
 
 Best For You recipes site in Blazor.
 
