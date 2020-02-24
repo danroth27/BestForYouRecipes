@@ -11,14 +11,15 @@
     Timer debounceTimer;
     string searchQuery;
 
-    string SearchQuery
+    [Parameter]
+    public string SearchQuery
     {
         get => searchQuery;
         set
         {
             searchQuery = value;
-            debounceTimer.Stop();
-            debounceTimer.Start();
+            debounceTimer?.Stop();
+            debounceTimer?.Start();
         }
     }
 

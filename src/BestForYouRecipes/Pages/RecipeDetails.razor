@@ -38,7 +38,7 @@
             <h2>Tags</h2>
             @foreach (var tag in recipe.Tags)
             {
-                <span class="tag">@tag</span>
+                <a class="tag" href="@($"tag/{tag}")">@tag</a>
             }
             <StarRatingReviews Reviews="recipe.Reviews" OnSubmitReview="OnSubmitReview" />
         </div>

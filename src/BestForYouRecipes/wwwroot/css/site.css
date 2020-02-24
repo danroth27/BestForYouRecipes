@@ -162,7 +162,9 @@ header {
     }
 
 .tag {
+    color: inherit;
     font-size: 0.8em;
+    text-decoration: none;
     background-color: #eaeaea;
     text-transform: uppercase;
     padding: 0 4px;
