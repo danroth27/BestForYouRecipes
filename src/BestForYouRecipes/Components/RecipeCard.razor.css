@@ -1,0 +1,31 @@
+﻿.recipe-card {
+    box-sizing: border-box;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 12px;
+}
+
+    .recipe-card img {
+        width: 100%;
+    }
+
+.recipe-card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 8px 0px 8px;
+}
+
+.recipe-card-name {
+    margin: 1rem 0 1rem 0;
+}
+
+.recipe-card-source {
+    margin-top: 0;
+}
+
+.recipe-card ::deep .star-rating {
+    margin-top: auto;
+    justify-content: flex-end;
+}

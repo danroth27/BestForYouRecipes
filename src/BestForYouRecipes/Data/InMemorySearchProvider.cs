@@ -13,16 +13,16 @@ namespace BestForYouRecipes
         public InMemorySearchProvider(IDictionary<string, Recipe> recipes)
         {
             this.recipes = recipes;
-            BuildSearchIndex();
+            searchIndex = BuildSearchIndex();
         }
 
-        void BuildSearchIndex()
+        IDictionary<string, ICollection<(string RecipeId, int Count)>> BuildSearchIndex()
         {
             // Build search index based on name, tags, and ingredients
-            searchIndex = new Dictionary<string, ICollection<(string, int)>>();
+            var searchIndex = new Dictionary<string, ICollection<(string, int)>>();
             foreach (var recipe in recipes.Values)
             {
-                var terms = recipe.Name.ToLower().Split()
+                var terms = recipe.Name!.ToLower().Split()
                     .Concat(recipe.Tags.Select(tag => tag.ToLower()))
                     .Concat(recipe.Ingredients.SelectMany(ingredient => ingredient.ToLower().Split()))
                     .GroupBy(term => term)
@@ -33,9 +33,10 @@ namespace BestForYouRecipes
                     {
                         searchIndex[term.Term] = new List<(string, int)>();
                     }
-                    searchIndex[term.Term].Add((recipe.Id, term.TermCount));
+                    searchIndex[term.Term].Add((recipe.Id!, term.TermCount));
                 }
             }
+            return searchIndex;
         }
 
         public IEnumerable<Recipe> Search(string query)

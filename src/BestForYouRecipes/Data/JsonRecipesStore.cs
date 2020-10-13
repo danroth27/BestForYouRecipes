@@ -20,7 +20,12 @@ namespace BestForYouRecipes
                 PropertyNameCaseInsensitive = true,
                 AllowTrailingCommas = true
             };
-            recipes = JsonSerializer.Deserialize<Dictionary<string, Recipe>>(json, jsonOptions);
+            var recipes = JsonSerializer.Deserialize<Dictionary<string, Recipe>>(json, jsonOptions);
+            if (recipes is null)
+            {
+                throw new InvalidDataException("Failed to deserialize recipes: recipes is null");
+            }
+            this.recipes = recipes;
             searchProvider = new InMemorySearchProvider(recipes);
         }
 
@@ -33,7 +38,7 @@ namespace BestForYouRecipes
             return Task.FromResult(searchProvider.Search(query));
         }
 
-        public Task<Recipe> GetRecipe(string id)
+        public Task<Recipe?> GetRecipe(string id)
         {
             recipes.TryGetValue(id, out var recipe);
             return Task.FromResult(recipe);

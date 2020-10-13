@@ -1,9 +1,7 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Components.Web
 @namespace BestForYouRecipes.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@{
-    Layout = null;
-}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,8 +12,9 @@
     <base href="~/" />
     <link href="css/fabric-icons-inline.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans|Playfair+Display&display=swap" rel="stylesheet">
-    <link href="_content/StarRatings/star-ratings.css" rel="stylesheet" />
+    <link href="BestForYouRecipes.styles.css" rel="stylesheet" />
     <link href="css/site.css" rel="stylesheet" />
+    <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
 </head>
 <body>
     <component type="typeof(App)" render-mode="ServerPrerendered" />

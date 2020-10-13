@@ -46,20 +46,21 @@
 </div>
 
 @code {
-    Recipe recipe;
-    // Review review;
+    Recipe? recipe;
 
     [Parameter]
-    public string RecipeId { get; set; }
+    [EditorRequired]
+    public string? RecipeId { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
+        ArgumentNullException.ThrowIfNull(RecipeId);
         recipe = await RecipesStore.GetRecipe(RecipeId);
     }
 
     Task OnSubmitReview(Review review)
     {
-        recipe.Reviews.Insert(0, review);
+        recipe!.Reviews.Insert(0, review);
         return RecipesStore.UpdateRecipe(recipe);
     }
 }

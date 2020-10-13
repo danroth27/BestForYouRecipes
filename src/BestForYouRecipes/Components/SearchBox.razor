@@ -8,11 +8,11 @@
 </div>
 
 @code {
-    Timer debounceTimer;
-    string searchQuery;
+    Timer? debounceTimer;
+    string? searchQuery;
 
     [Parameter]
-    public string SearchQuery
+    public string? SearchQuery
     {
         get => searchQuery;
         set
@@ -24,7 +24,7 @@
     }
 
     [Parameter(CaptureUnmatchedValues = true)]
-    public IDictionary<string, object> AdditionalAttributes { get; set; }
+    public IDictionary<string, object>? AdditionalAttributes { get; set; }
 
     [Parameter]
     public int Debounce { get; set; } = 300;
@@ -40,13 +40,13 @@
         debounceTimer.Elapsed += Search;
     }
 
-    async void Search(Object source, ElapsedEventArgs e)
+    async void Search(Object? source, ElapsedEventArgs e)
     {
         await InvokeAsync(() => SearchQueryChanged.InvokeAsync(SearchQuery));
     }
 
     public void Dispose()
     {
-        debounceTimer.Dispose();
+        debounceTimer!.Dispose();
     }
 }
