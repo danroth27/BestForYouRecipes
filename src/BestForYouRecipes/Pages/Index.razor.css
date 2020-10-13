@@ -1,0 +1,21 @@
+﻿.recipe-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(18em, 1fr));
+    grid-gap: 20px;
+}
+
+.recipe-list-item {
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+}
+
+    .recipe-list-item a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .recipe-list-item:hover {
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+    }

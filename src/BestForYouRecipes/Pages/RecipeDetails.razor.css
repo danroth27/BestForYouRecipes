@@ -1,0 +1,55 @@
+﻿.back-link {
+    font-family: 'Playfair Display', serif;
+    text-transform: uppercase;
+    color: #435869;
+    text-decoration: none;
+}
+
+.source-and-servings {
+    text-align: center;
+    text-transform: uppercase;
+    color: #212A31;
+    text-align: center;
+    margin: 5px 0;
+}
+
+input[type="checkbox"] {
+    vertical-align: middle;
+}
+
+.recipe > .star-rating-avg {
+    text-align: center;
+    margin: 5px auto;
+}
+
+.recipe-banner {
+    display: block;
+    width: 125%;
+    margin: 0 -12.5%;
+}
+
+    .recipe-banner img {
+        display: block;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 1800px;
+    }
+
+.recipe-details {
+    padding: 0 5%;
+}
+
+    .recipe-details ul {
+        list-style: none;
+        padding: 0;
+    }
+
+.tag {
+    color: inherit;
+    font-size: 0.8em;
+    text-decoration: none;
+    background-color: #eaeaea;
+    text-transform: uppercase;
+    padding: 0 4px;
+}

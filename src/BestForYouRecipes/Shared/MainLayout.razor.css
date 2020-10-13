@@ -1,0 +1,17 @@
+﻿header {
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#logo {
+    height: inherit;
+}
+
+footer {
+    height: 72px;
+    background: #435869;
+    font-family: 'Playfair Display', serif;
+    color: white;
+}

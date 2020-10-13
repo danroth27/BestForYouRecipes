@@ -1,0 +1,25 @@
+﻿.search {
+    display: flex;
+    align-items: center;
+    max-width: 30em;
+    margin: 0 auto;
+    background: #F5F5F5;
+    opacity: 0.78;
+    color: #666666;
+    border: 1px solid #999999;
+    border-radius: 2px;
+    padding: 6px 12px;
+}
+
+    .search input {
+        flex: 1;
+        font-family: Open Sans;
+        font-size: 14px;
+        line-height: 20px;
+        border: none;
+        background: inherit;
+    }
+
+        .search input:focus {
+            outline: none;
+        }
