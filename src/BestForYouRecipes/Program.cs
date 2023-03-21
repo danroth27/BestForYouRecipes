@@ -1,32 +1,26 @@
 using BestForYouRecipes;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using System.Net.Http.Json;
+using System.Text.Json;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebAssemblyHostBuilder.CreateDefault(args);
+builder.RootComponents.Add<App>("#app");
+builder.RootComponents.Add<HeadOutlet>("head::after");
 
-// Add services to the container.
-builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<IRecipesStore, JsonRecipesStore>();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+var httpClient = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
+var jsonOptions = new JsonSerializerOptions
 {
-    app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    PropertyNameCaseInsensitive = true,
+    AllowTrailingCommas = true
+};
+var recipes = await httpClient.GetFromJsonAsync<Dictionary<string, Recipe>>("recipes.json", jsonOptions);
+if (recipes is null)
+{
+    throw new InvalidDataException("Failed to download recipes: recipes is null");
 }
 
-app.UseHttpsRedirection();
+builder.Services.AddScoped(sp => httpClient);
+builder.Services.AddSingleton<IRecipesStore>(new JsonRecipesStore(recipes));
 
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.MapBlazorHub();
-app.MapFallbackToPage("/_Host");
-
-app.Run();
+await builder.Build().RunAsync();

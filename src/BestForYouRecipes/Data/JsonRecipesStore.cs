@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -12,25 +13,15 @@ namespace BestForYouRecipes
         IDictionary<string, Recipe> recipes;
         InMemorySearchProvider searchProvider;
 
-        public JsonRecipesStore()
+        public JsonRecipesStore(IDictionary<string, Recipe> recipes)
         {
-            var json = File.ReadAllText("recipes.json");
-            var jsonOptions = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-                AllowTrailingCommas = true
-            };
-            var recipes = JsonSerializer.Deserialize<Dictionary<string, Recipe>>(json, jsonOptions);
-            if (recipes is null)
-            {
-                throw new InvalidDataException("Failed to deserialize recipes: recipes is null");
-            }
             this.recipes = recipes;
             searchProvider = new InMemorySearchProvider(recipes);
         }
 
         public Task<IEnumerable<Recipe>> GetRecipes(string query)
         {
+
             if (string.IsNullOrWhiteSpace(query))
             {
                 return Task.FromResult<IEnumerable<Recipe>>(recipes.Values);
