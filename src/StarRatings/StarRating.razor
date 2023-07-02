@@ -10,13 +10,13 @@
         {
             var id = $"star{i}";
             var value = i;
-            <input type="radio" id="@id" name="star-rating" value="@value" checked="@(Value == value)" @onchange="OnChange" />
+            <input type="radio" id="@id" name="rating" value="@value" checked="@(Value == value)" @onchange="OnChange" />
             <label for="@id"></label>
         }
     }
 </div>
 
-@code { 
+@code {
     FieldIdentifier fieldIdentifier;
 
     protected override void OnInitialized()
@@ -28,7 +28,7 @@
     }
 
     [CascadingParameter]
-    EditContext EditContext { get; set; }
+    EditContext? EditContext { get; set; }
 
     [Parameter]
     public double Value { get; set; }
@@ -37,13 +37,13 @@
     public EventCallback<double> ValueChanged { get; set; }
 
     [Parameter]
-    public Expression<Func<double>> ValueExpression { get; set; }
+    public Expression<Func<double>>? ValueExpression { get; set; }
 
     string CssClass => $"star-rating {EditContext?.FieldCssClass(fieldIdentifier) ?? ""}";
 
     async Task OnChange(ChangeEventArgs args)
     {
-        Value = double.Parse(args.Value.ToString());
+        Value = double.Parse(args.Value!.ToString()!);
         await ValueChanged.InvokeAsync(Value);
         EditContext?.NotifyFieldChanged(fieldIdentifier);
     }

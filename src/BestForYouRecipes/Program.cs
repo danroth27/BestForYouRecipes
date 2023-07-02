@@ -1,26 +1,35 @@
 using BestForYouRecipes;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using System.Net.Http.Json;
-using System.Text.Json;
 
-var builder = WebAssemblyHostBuilder.CreateDefault(args);
-builder.RootComponents.Add<App>("#app");
-builder.RootComponents.Add<HeadOutlet>("head::after");
+var builder = WebApplication.CreateBuilder(args);
 
-var httpClient = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
-var jsonOptions = new JsonSerializerOptions
+// Add services to the container.
+builder.Services.AddRazorComponents()
+    .AddServerComponents();
+builder.Services.AddSingleton<IRecipesStore, RecipesStore>();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
 {
-    PropertyNameCaseInsensitive = true,
-    AllowTrailingCommas = true
-};
-var recipes = await httpClient.GetFromJsonAsync<Dictionary<string, Recipe>>("recipes.json", jsonOptions);
-if (recipes is null)
-{
-    throw new InvalidDataException("Failed to download recipes: recipes is null");
+    app.UseExceptionHandler("/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
 }
 
-builder.Services.AddScoped(sp => httpClient);
-builder.Services.AddSingleton<IRecipesStore>(new JsonRecipesStore(recipes));
+app.UseHttpsRedirection();
 
-await builder.Build().RunAsync();
+app.UseStaticFiles();
+
+app.MapRazorComponents<App>();
+
+app.Map("images/uploaded/{filename}", async (string filename, IRecipesStore recipeStore) =>
+    Results.File(await recipeStore.GetImage(filename), "image/jpeg"));
+
+app.MapPost("api/recipes", async (Recipe recipe, IRecipesStore recipeStore) =>
+    await recipeStore.AddRecipe(recipe)); // TODO: Validate
+
+app.MapPost("api/images", async (HttpRequest req, IRecipesStore recipeStore) =>
+    await recipeStore.AddImage(req.Body));
+
+app.Run();

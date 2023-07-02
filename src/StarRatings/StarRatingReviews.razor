@@ -1,10 +1,15 @@
-﻿<div class="reviews">
+﻿@inject NavigationManager NavigationManager
+<div class="reviews">
     <h2>Reviews</h2>
-    <EditForm class="review-editor" Model="review" OnValidSubmit="OnValidSubmit">
+    <EditForm method="post" class="review-editor" Model="review" OnValidSubmit="OnValidSubmit">
         <DataAnnotationsValidator />
-        <ValidationSummary />
+
         <StarRating @bind-Value="review.Rating" />
+        <ValidationMessage For="() => review.Rating" />
+
         <InputTextArea rows="5" placeholder="Write a review" @bind-Value="review.Text" />
+        <ValidationMessage For="() => review.Text" />
+
         <button type="submit">Submit</button>
     </EditForm>
     @for (int i = 0; i < Reviews.Count; i++)
@@ -22,7 +27,7 @@
 </div>
 
 @code {
-    Review review = new Review();
+    Review review = new();
 
     [Parameter]
     public IList<Review> Reviews { get; set; }
@@ -34,6 +39,7 @@
     {
         await OnSubmitReview.InvokeAsync(review);
         review = new Review();
+        NavigationManager.NavigateTo(NavigationManager.Uri);
     }
 
 }

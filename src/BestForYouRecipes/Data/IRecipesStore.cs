@@ -1,14 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace BestForYouRecipes;
 
-namespace BestForYouRecipes
+public interface IRecipesStore
 {
-    public interface IRecipesStore
-    {
-        Task<IEnumerable<Recipe>> GetRecipes(string query = "");
+    Task<IEnumerable<Recipe>> GetRecipes(string? query);
 
-        Task<Recipe?> GetRecipe(string id);
+    Task<Recipe?> GetRecipe(string id);
 
-        Task<Recipe> UpdateRecipe(Recipe recipe);
-    }
+    Task<Recipe> UpdateRecipe(Recipe recipe);
+
+    Task<byte[]> GetImage(string filename);
+
+    Task<string> AddRecipe(Recipe recipe);
+
+    Task<string> AddImage(Stream imageData);
 }

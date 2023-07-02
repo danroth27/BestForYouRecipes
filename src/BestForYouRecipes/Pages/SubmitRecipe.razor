@@ -1,0 +1,63 @@
+﻿@page "/submit"
+@inject IRecipesStore RecipesStore
+@inject NavigationManager Nav
+@inject IJSRuntime JS
+
+<div>
+    <h1>Recipe Editor</h1>
+
+    <p>Share your great recipes with the Best For You community.</p>
+
+    <EditForm Model="@recipe" OnValidSubmit="HandleSubmit" @ref="@editForm">
+        <DataAnnotationsValidator />
+
+        <h2>Title</h2>
+        <InputText @bind-Value="@recipe.Name" />
+        <ValidationMessage For="@(() => recipe.Name)" />
+
+        <h2>Picture</h2>
+        <InputFile @ref="inputFile" OnChange="@ImageSelected" />
+        <img class="preview" @ref="previewImageElem" />
+        <ValidationMessage For="@(() => recipe.ImageUrl)" />
+
+        <h2>Number of servings</h2>
+        <InputNumber @bind-Value="@recipe.Servings" />
+        <ValidationMessage For="@(() => recipe.Servings)" />
+
+        <h2>Ingredients</h2>
+        <IngredientsListEditor Ingredients="@recipe.Ingredients" />
+        <ValidationMessage For="@(() => recipe.Ingredients)" />
+
+        <h2>Instructions</h2>
+        <InputTextArea rows="5" name="text" placeholder="Write your instructions" @bind-Value="@recipe.Instructions" />
+        <ValidationMessage For="@(() => recipe.Instructions)" />
+
+        <h2>Tags</h2>
+        <p>TODO: Edit tags</p>
+
+        <button type="submit">Submit recipe</button>
+    </EditForm>
+</div>
+
+@code {
+    Recipe recipe = new Recipe { Servings = 2, Source = "Best For You community", Ingredients = Array.Empty<string>() };
+    private InputFile? inputFile;
+    private ElementReference previewImageElem;
+    EditForm? editForm;
+
+    private async Task ImageSelected(InputFileChangeEventArgs eventArgs)
+    {
+        await using var jsModule = await JS.InvokeAsync<IJSObjectReference>("import", "./Pages/SubmitRecipe.razor.js");
+        await jsModule!.InvokeVoidAsync("previewImage", inputFile!.Element, previewImageElem);
+        var image = await eventArgs.File.RequestImageFileAsync("jpeg", 800, 600);
+        recipe.ImageUrl = await RecipesStore.AddImage(image.OpenReadStream(2 * 1024 * 1024));
+        editForm!.EditContext!.NotifyFieldChanged(FieldIdentifier.Create(() => recipe.ImageUrl));
+    }
+
+    async Task HandleSubmit()
+    {
+        recipe.Tags = new[] { "TODO" };
+        recipe.Id = await RecipesStore.AddRecipe(recipe); // In a real application, this would probably go through some kind of administrative review process
+        Nav.NavigateTo($"recipe/{recipe.Id}");
+    }
+}

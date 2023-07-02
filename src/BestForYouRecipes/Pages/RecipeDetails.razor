@@ -1,4 +1,4 @@
-﻿@page "/{recipeId}"
+﻿@page "/recipe/{recipeId}"
 @inject IRecipesStore RecipesStore
 
 <a class="back-link" href="/">←Back to all recipes</a>
@@ -10,6 +10,7 @@
     }
     else
     {
+        <PageTitle>@recipe.Name</PageTitle>
         <h1>@recipe.Name</h1>
         <div class="source-and-servings">
             @recipe.SourceShort | Servings: @recipe.Servings
@@ -31,7 +32,7 @@
                 }
             </ul>
             <h2>Instructions</h2>
-            @foreach (var instruction in recipe.Instructions.Split("\r\n"))
+            @foreach (var instruction in recipe.Instructions.Split("\n"))
             {
                 <p>@instruction</p>
             }
@@ -48,13 +49,11 @@
 @code {
     Recipe? recipe;
 
-    [Parameter]
-    [EditorRequired]
-    public string? RecipeId { get; set; }
+    [Parameter, EditorRequired]
+    public string RecipeId { get; set; } = default!;
 
     protected override async Task OnParametersSetAsync()
     {
-        ArgumentNullException.ThrowIfNull(RecipeId);
         recipe = await RecipesStore.GetRecipe(RecipeId);
     }
 
