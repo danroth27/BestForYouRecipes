@@ -63,10 +63,17 @@
     DotNetObjectReference<IngredientsListEditor>? selfReference;
     string onEnterClickNextButton = "if (event.code === 'Enter') { event.preventDefault(); event.target.dispatchEvent(new Event('change')); event.target.nextElementSibling.click(); }";
 
-    [CascadingParameter] public EditContext? EditContext { get; set; }
-    [Parameter] public string[] Ingredients { get; set; } = default!;
-    [Parameter] public EventCallback<string[]> IngredientsChanged { get; set; } = default!;
-    [Parameter] public Expression<Func<string[]>> IngredientsExpression { get; set; } = default!;
+    [CascadingParameter]
+    public EditContext? EditContext { get; set; }
+
+    [Parameter]
+    public string[] Ingredients { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<string[]> IngredientsChanged { get; set; } = default!;
+
+    [Parameter]
+    public Expression<Func<string[]>> IngredientsExpression { get; set; } = default!;
 
     async Task UpdateSystem()
     {
