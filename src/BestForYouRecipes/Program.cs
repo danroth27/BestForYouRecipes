@@ -1,4 +1,5 @@
 using BestForYouRecipes;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddServerComponents();
 builder.Services.AddSingleton<IRecipesStore, RecipesStore>();
+builder.Services.Configure<KestrelServerOptions>(options =>
+{
+    options.AllowSynchronousIO = true;
+});
 
 var app = builder.Build();
 
