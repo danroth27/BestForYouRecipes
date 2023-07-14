@@ -2,7 +2,7 @@ using System.Collections.Concurrent;
 using System.Globalization;
 using System.Text.Json;
 
-namespace BestForYouRecipes;
+namespace BestForYouRecipes.Data;
 
 public class RecipesStore : IRecipesStore
 {

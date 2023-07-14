@@ -122,7 +122,7 @@
     {
         if (firstRender)
         {
-            jsModule = await JS.InvokeAsync<IJSObjectReference>("import", "./Components/IngredientsListEditor.razor.js");
+            jsModule = await JS.InvokeAsync<IJSObjectReference>("import", "./IngredientsListEditor.razor.js");
             selfReference = DotNetObjectReference.Create(this);
             await jsModule.InvokeVoidAsync("enableDragging", ingredientsElem, selfReference);
         }

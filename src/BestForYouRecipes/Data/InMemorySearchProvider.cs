@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace BestForYouRecipes;
+namespace BestForYouRecipes.Data;
 
 public class InMemorySearchProvider
 {

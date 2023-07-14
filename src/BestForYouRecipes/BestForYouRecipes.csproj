@@ -8,6 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.0-preview.6.23329.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BestForYouRecipes.Client\BestForYouRecipes.Client.csproj" />
     <ProjectReference Include="..\StarRatings\StarRatings.csproj" />
   </ItemGroup>
 

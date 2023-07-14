@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace BestForYouRecipes.Data;
+namespace BestForYouRecipes;
 
 public class Ingredient
 {
