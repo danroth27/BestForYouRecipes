@@ -133,7 +133,15 @@
         selfReference?.Dispose();
         if (jsModule is not null)
         {
-            await jsModule.DisposeAsync();
+            try
+            {
+                await jsModule.DisposeAsync();
+            }
+            catch (JSDisconnectedException)
+            {
+                // If disconnected, then there's no reason why the server should be concerned about disposing IJSObjectReference instances.
+                // https://github.com/dotnet/aspnetcore/issues/49418#issuecomment-1636309956
+            }
         }
     }
 }
