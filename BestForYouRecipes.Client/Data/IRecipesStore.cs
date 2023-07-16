@@ -8,7 +8,7 @@ public interface IRecipesStore
 
     Task<Recipe> UpdateRecipe(Recipe recipe);
 
-    Task<byte[]> GetImage(string filename);
+    Task DownloadImage(string filename, Stream stream);
 
     Task<string> AddRecipe(Recipe recipe);
 

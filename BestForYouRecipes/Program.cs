@@ -27,13 +27,13 @@ app.MapRazorComponents<App>()
     .AddServerRenderMode()
     .AddWebAssemblyRenderMode();
 
-app.Map("images/uploaded/{filename}", async (string filename, IRecipesStore recipeStore) =>
-    Results.File(await recipeStore.GetImage(filename), "image/jpeg"));
+app.Map("images/uploaded/{filename}", (string filename, IRecipesStore recipeStore) =>
+    Results.Stream(body => recipeStore.DownloadImage(filename, body), "image/jpeg"));
 
 app.MapPost("api/recipes", async (Recipe recipe, IRecipesStore recipeStore) =>
     await recipeStore.AddRecipe(recipe)); // TODO: Validate https://github.com/dotnet/aspnetcore/issues/46349
 
-app.MapPost("api/images", async (HttpRequest req, IRecipesStore recipeStore) =>
-    await recipeStore.AddImage(req.Body));
+app.MapPost("api/images", async (Stream body, IRecipesStore recipeStore) =>
+    await recipeStore.AddImage(body));
 
 app.Run();
