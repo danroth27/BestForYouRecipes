@@ -1,6 +1,5 @@
 ﻿@page "/"
 @inject IRecipesStore RecipesStore
-@attribute [StreamRendering(enabled: true)]
 
 <form class="search" enhance>
     <input name="query" placeholder="Search..." value="@Query" />
@@ -26,7 +25,7 @@ else
 }
 
 @code {
-    [Parameter, SupplyParameterFromQuery]
+    [SupplyParameterFromQuery]
     public string? Query { get; set; }
 
     IEnumerable<Recipe>? recipes;
