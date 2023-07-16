@@ -1,14 +1,14 @@
 ﻿@inject NavigationManager NavigationManager
 <div class="reviews">
     <h2>Reviews</h2>
-    <EditForm method="post" class="review-editor" Model="Review" OnValidSubmit="OnValidSubmit">
+    <EditForm method="post" class="review-editor" Model="review" OnValidSubmit="OnValidSubmit">
         <DataAnnotationsValidator />
 
-        <StarRating @bind-Value="Review.Rating" />
-        <ValidationMessage For="() => Review.Rating" />
+        <StarRating @bind-Value="review.Rating" />
+        <ValidationMessage For="() => review.Rating" />
 
-        <InputTextArea rows="5" placeholder="Write a review" @bind-Value="Review.Text" />
-        <ValidationMessage For="() => Review.Text" />
+        <InputTextArea rows="5" placeholder="Write a review" @bind-Value="review.Text" />
+        <ValidationMessage For="() => review.Text" />
 
         <button type="submit">Submit</button>
     </EditForm>
@@ -27,6 +27,8 @@
 </div>
 
 @code {
+    Review review = new();
+
     [SupplyParameterFromForm]
     public Review Review { get; set; } = new();
 
@@ -36,9 +38,14 @@
     [Parameter]
     public EventCallback<Review> OnSubmitReview { get; set; }
 
+    protected override void OnInitialized()
+    {
+        review = Review;
+    }
+
     async Task OnValidSubmit()
     {
-        await OnSubmitReview.InvokeAsync(Review);
-        Review = new();
+        await OnSubmitReview.InvokeAsync(review);
+        review = new();
     }
 }

@@ -26,7 +26,7 @@ public class RecipesStore : IRecipesStore
     public async Task<IEnumerable<Recipe>> GetRecipes(string? query)
     {
         // Simulate DB query
-        await Task.Delay(1000);
+        // await Task.Delay(1000);
 
         return string.IsNullOrWhiteSpace(query)
             ? recipes.Values
@@ -49,6 +49,7 @@ public class RecipesStore : IRecipesStore
     {
         recipe.Id = recipes.Count.ToString(CultureInfo.InvariantCulture);
         recipes.Add(recipe.Id, recipe);
+        searchProvider = new InMemorySearchProvider(recipes);
         return Task.FromResult(recipe.Id);
     }
 
