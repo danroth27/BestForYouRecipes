@@ -6,20 +6,20 @@ namespace BestForYouRecipes.Data;
 
 public class RecipesStore : IRecipesStore
 {
-    IDictionary<string, Recipe> recipes;
-    ConcurrentDictionary<string, byte[]> images = new();
-    InMemorySearchProvider searchProvider;
+    private readonly Dictionary<string, Recipe> recipes;
+    private readonly ConcurrentDictionary<string, byte[]> images = new();
+    private readonly InMemorySearchProvider searchProvider;
 
-    public RecipesStore()
+    public RecipesStore(IHostEnvironment hostEnvironment)
     {
-        var jsonPath = Path.Combine(Path.GetDirectoryName(typeof(RecipesStore).Assembly.Location)!, "Data", "recipes.json");
-        var json = File.ReadAllText(jsonPath);
+        var jsonFileInfo = hostEnvironment.ContentRootFileProvider.GetFileInfo(Path.Combine("Data", "recipes.json"));
+        using var jsonStream = jsonFileInfo.CreateReadStream();
         var jsonOptions = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,
             AllowTrailingCommas = true
         };
-        recipes = JsonSerializer.Deserialize<Dictionary<string, Recipe>>(json, jsonOptions)!;
+        recipes = JsonSerializer.Deserialize<Dictionary<string, Recipe>>(jsonStream, jsonOptions)!;
         searchProvider = new InMemorySearchProvider(recipes);
     }
 
@@ -41,6 +41,7 @@ public class RecipesStore : IRecipesStore
 
     public Task<Recipe> UpdateRecipe(Recipe recipe)
     {
+        recipes[recipe.Id] = recipe;
         return Task.FromResult(recipe);
     }
 
@@ -61,6 +62,8 @@ public class RecipesStore : IRecipesStore
         return $"images/uploaded/{filename}";
     }
 
-    public Task<byte[]> GetImage(string filename)
-        => Task.FromResult(images[filename]);
+    public Task DownloadImage(string filename, Stream stream)
+    {
+        return stream.WriteAsync(images[filename].AsMemory()).AsTask();
+    }
 }

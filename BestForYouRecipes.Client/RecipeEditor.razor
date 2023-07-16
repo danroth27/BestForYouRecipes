@@ -49,7 +49,8 @@
         await using var jsModule = await JS.InvokeAsync<IJSObjectReference>("import", "./Pages/SubmitRecipe.razor.js");
         await jsModule!.InvokeVoidAsync("previewImage", inputFile!.Element, previewImageElem);
         var image = await eventArgs.File.RequestImageFileAsync("jpeg", 800, 600);
-        recipe.ImageUrl = await RecipesStore.AddImage(image.OpenReadStream(2 * 1024 * 1024));
+        await using var stream = image.OpenReadStream(2 * 1024 * 1024);
+        recipe.ImageUrl = await RecipesStore.AddImage(stream);
         editForm!.EditContext!.NotifyFieldChanged(FieldIdentifier.Create(() => recipe.ImageUrl));
     }
 

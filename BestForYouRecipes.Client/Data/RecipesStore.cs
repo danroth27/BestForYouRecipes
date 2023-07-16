@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Net.Http.Json;
-using System.Net.Http.Headers;
 
 namespace BestForYouRecipes.Client.Data;
 
@@ -36,6 +35,6 @@ public class RecipesStore : IRecipesStore
     public Task<Recipe> UpdateRecipe(Recipe recipe)
         => throw new NotImplementedException();
 
-    public Task<byte[]> GetImage(string filename)
+    public Task DownloadImage(string filename, Stream stream) 
         => throw new NotImplementedException();
 }

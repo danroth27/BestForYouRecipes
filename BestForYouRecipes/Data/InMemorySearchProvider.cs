@@ -4,10 +4,10 @@ namespace BestForYouRecipes.Data;
 
 public class InMemorySearchProvider
 {
-    readonly IDictionary<string, Recipe> recipes;
-    IDictionary<string, ICollection<(string RecipeId, int Count)>> searchIndex;
+    readonly Dictionary<string, Recipe> recipes;
+    readonly Dictionary<string, ICollection<(string RecipeId, int Count)>> searchIndex;
 
-    public InMemorySearchProvider(IDictionary<string, Recipe> recipes)
+    public InMemorySearchProvider(Dictionary<string, Recipe> recipes)
     {
         this.recipes = recipes;
 
