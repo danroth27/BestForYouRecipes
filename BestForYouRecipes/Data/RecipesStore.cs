@@ -8,7 +8,7 @@ public class RecipesStore : IRecipesStore
 {
     private readonly Dictionary<string, Recipe> recipes;
     private readonly ConcurrentDictionary<string, byte[]> images = new();
-    private readonly InMemorySearchProvider searchProvider;
+    private InMemorySearchProvider searchProvider;
 
     public RecipesStore(IHostEnvironment hostEnvironment)
     {
