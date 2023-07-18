@@ -26,7 +26,7 @@ public class RecipesStore : IRecipesStore
     public async Task<IEnumerable<Recipe>> GetRecipes(string? query)
     {
         // Simulate DB query
-        // await Task.Delay(1000);
+        await Task.Delay(1000);
 
         return string.IsNullOrWhiteSpace(query)
             ? recipes.Values
