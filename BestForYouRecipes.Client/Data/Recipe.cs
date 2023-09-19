@@ -1,5 +1,6 @@
 ﻿using StarRatings;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 
 namespace BestForYouRecipes;
 
@@ -11,6 +12,8 @@ public class Recipe
     public string Name { get; set; } = default!;
 
     public string Source { get; set; } = default!;
+
+    [IgnoreDataMember]
     public string SourceShort => Uri.TryCreate(Source, UriKind.Absolute, out var sourceUri) ? sourceUri.Authority : Source;
     public int PrepTime { get; set; }
     public int WaitTime { get; set; }
@@ -33,6 +36,9 @@ public class Recipe
     [Required(ErrorMessage = "Please add a picture")]
     public string? ImageUrl { get; set; }
 
+    [IgnoreDataMember]
     public Uri CardImageUrl => new Uri(ImageUrl ?? $"images/cards/{Name}.png", UriKind.Relative);
+    
+    [IgnoreDataMember]
     public Uri BannerImageUrl => new Uri(ImageUrl ?? $"images/banners/{Name} Banner.png", UriKind.Relative);
 }

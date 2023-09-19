@@ -9,7 +9,7 @@
 
     <p>Share your great recipes with the Best For You community.</p>
 
-    <EditForm Model="@recipe" OnValidSubmit="HandleSubmit" @ref="@editForm">
+    <EditForm Model="@recipe" OnValidSubmit="HandleSubmit" @ref="@editForm" FormName="recipe-editor">
         <DataAnnotationsValidator />
 
         <h2>Title</h2>
@@ -30,7 +30,7 @@
         <ValidationMessage For="@(() => recipe.Ingredients)" />
 
         <h2>Instructions</h2>
-        <InputTextArea rows="5" name="text" placeholder="Write your instructions" @bind-Value="@recipe.Instructions" />
+        <InputTextArea rows="5" placeholder="Write your instructions" @bind-Value="@recipe.Instructions" />
         <ValidationMessage For="@(() => recipe.Instructions)" />
 
         <h2>Tags</h2>
@@ -41,10 +41,12 @@
 </div>
 
 @code {
-    Recipe recipe = new Recipe { Servings = 2, Source = "Best For You community", Ingredients = Array.Empty<string>() };
     private InputFile? inputFile;
     private ElementReference previewImageElem;
     EditForm? editForm;
+
+    [SupplyParameterFromForm]
+    public Recipe recipe { get; set; } = new Recipe { Servings = 2, Source = "Best For You community", Ingredients = Array.Empty<string>() };
 
     private async Task ImageSelected(InputFileChangeEventArgs eventArgs)
     {
