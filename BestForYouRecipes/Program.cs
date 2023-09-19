@@ -1,5 +1,6 @@
 using BestForYouRecipes;
 using BestForYouRecipes.Data;
+using BestForYouRecipes.Pages;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +26,8 @@ app.UseStaticFiles();
 
 app.MapRazorComponents<App>()
     .AddServerRenderMode()
-    .AddWebAssemblyRenderMode();
+    .AddWebAssemblyRenderMode()
+    .AddAdditionalAssemblies(typeof(SubmitRecipe).Assembly);
 
 app.Map("images/uploaded/{filename}", (string filename, IRecipesStore recipeStore) =>
     Results.Stream(body => recipeStore.DownloadImage(filename, body), "image/jpeg"));

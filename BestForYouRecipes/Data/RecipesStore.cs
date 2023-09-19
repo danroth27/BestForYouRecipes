@@ -47,7 +47,7 @@ public class RecipesStore : IRecipesStore
 
     public Task<string> AddRecipe(Recipe recipe)
     {
-        recipe.Id = recipes.Count.ToString(CultureInfo.InvariantCulture);
+        recipe.Id = (recipes.Count + 1).ToString(CultureInfo.InvariantCulture);
         recipes.Add(recipe.Id, recipe);
         searchProvider = new InMemorySearchProvider(recipes);
         return Task.FromResult(recipe.Id);
