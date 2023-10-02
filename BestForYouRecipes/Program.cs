@@ -6,8 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
-    .AddServerComponents()
-    .AddWebAssemblyComponents();
+    .AddInteractiveServerComponents()
+    .AddInteractiveWebAssemblyComponents();
 builder.Services.AddSingleton<IRecipesStore, RecipesStore>();
 
 var app = builder.Build();
@@ -23,10 +23,11 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
+app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
-    .AddServerRenderMode()
-    .AddWebAssemblyRenderMode()
+    .AddInteractiveServerRenderMode()
+    .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(SubmitRecipe).Assembly);
 
 app.Map("images/uploaded/{filename}", (string filename, IRecipesStore recipeStore) =>
