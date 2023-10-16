@@ -1,8 +1,8 @@
 ﻿@page "/"
 @inject IRecipesStore RecipesStore
-@attribute [StreamRendering]
+@* @attribute [StreamRendering] *@
 
-<form class="search" data-enhance>
+<form class="search">
     <input name="query" placeholder="Search..." value="@Query" />
     <button title="Search" class="ms-Icon ms-Icon--Search"></button>
 </form>

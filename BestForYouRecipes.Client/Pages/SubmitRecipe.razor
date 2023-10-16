@@ -2,7 +2,7 @@
 @inject IRecipesStore RecipesStore
 @inject NavigationManager Nav
 @inject IJSRuntime JS
-@rendermode InteractiveAuto
+@* @rendermode InteractiveServer *@
 
 <div>
     <h1>Recipe Editor</h1>
@@ -26,7 +26,7 @@
         <ValidationMessage For="@(() => recipe.Servings)" />
 
         <h2>Ingredients</h2>
-        <IngredientsListEditor @bind-Ingredients="@recipe.Ingredients" />
+        <IngredientsListEditor Ingredients="@recipe.Ingredients" />
         <ValidationMessage For="@(() => recipe.Ingredients)" />
 
         <h2>Instructions</h2>
