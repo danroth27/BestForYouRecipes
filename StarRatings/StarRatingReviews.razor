@@ -46,6 +46,6 @@
     async Task OnValidSubmit()
     {
         await OnSubmitReview.InvokeAsync(review);
-        review = new();
+        NavigationManager.NavigateTo(NavigationManager.Uri);
     }
 }
