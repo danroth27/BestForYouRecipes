@@ -44,9 +44,9 @@
             cursor: pointer;
         }
 
-    .star-rating input:checked ~ label:before,
-    .star-rating:not(:checked) > label:hover:before,
-    .star-rating:not(:checked) > label:hover ~ label:before {
-        content: "★";
-        color: #feac25;
-    }
+        .star-rating input:checked ~ label:before,
+        .star-rating label:hover:before,
+        .star-rating label:hover ~ label:before {
+            content: "★";
+            color: #feac25;
+        }
