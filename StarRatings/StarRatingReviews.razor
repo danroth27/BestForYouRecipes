@@ -1,0 +1,51 @@
+﻿@inject NavigationManager NavigationManager
+<div class="reviews">
+    <h2>Reviews</h2>
+    <EditForm method="post" class="review-editor" Model="review" OnValidSubmit="OnValidSubmit" FormName="star-review" Enhance>
+        <DataAnnotationsValidator />
+
+        <StarRating @bind-Value="review.Rating" />
+        <ValidationMessage For="() => review.Rating" />
+
+        <InputTextArea rows="5" placeholder="Write a review" @bind-Value="review.Text" />
+        <ValidationMessage For="() => review.Text" />
+
+        <button type="submit">Submit</button>
+    </EditForm>
+    @for (int i = 0; i < Reviews.Count; i++)
+    {
+        var review = Reviews[i];
+        <div class="review">
+            <StarRating Value="review.Rating" />
+            <p>@review.Text</p>
+            @if (i < Reviews.Count - 1)
+            {
+                <hr />
+            }
+        </div>
+    }
+</div>
+
+@code {
+    Review review = new();
+
+    [SupplyParameterFromForm]
+    public Review Review { get; set; } = new();
+
+    [Parameter, EditorRequired]
+    public IList<Review> Reviews { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<Review> OnSubmitReview { get; set; }
+
+    protected override void OnInitialized()
+    {
+        review = Review;
+    }
+
+    async Task OnValidSubmit()
+    {
+        await OnSubmitReview.InvokeAsync(review);
+        NavigationManager.NavigateTo(NavigationManager.Uri);
+    }
+}
