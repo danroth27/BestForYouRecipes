@@ -10,6 +10,8 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 builder.Services.AddSingleton<IRecipesStore, RecipesStore>();
+builder.Services.AddSingleton<IUserStore, UserStore>();
+builder.Services.AddScoped<AuthenticationService>();
 
 var app = builder.Build();
 

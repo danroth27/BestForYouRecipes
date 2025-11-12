@@ -42,3 +42,48 @@ span {
     font-weight: normal;
     font-size: 1.4rem;
 }
+
+.user-section {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.user-info {
+    display: flex;
+    gap: 1rem;
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    color: #a6ffb4;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+    font-family: 'Playfair Display', serif;
+    font-weight: normal;
+    font-size: 1.4rem;
+}
+
+.logout-button {
+    display: flex;
+    gap: 1rem;
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    color: #e1e1e1;
+    text-decoration: none;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    font-family: 'Playfair Display', serif;
+    font-weight: normal;
+    font-size: 1.4rem;
+    transition: color 0.2s;
+}
+
+.logout-button:hover {
+    color: white;
+}
