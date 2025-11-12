@@ -1,7 +1,7 @@
 ﻿@inject NavigationManager NavigationManager
 <div class="reviews">
     <h2>Reviews</h2>
-    <EditForm method="post" class="review-editor" Model="review" OnValidSubmit="OnValidSubmit" FormName="star-review" Enhance>
+    <EditForm method="post" class="review-editor" Model="review" OnValidSubmit="OnValidSubmit" FormName="star-review" Enhance @ref="editForm">
         <DataAnnotationsValidator />
 
         <StarRating @bind-Value="review.Rating" />
@@ -28,6 +28,7 @@
 
 @code {
     Review review = new();
+    EditForm? editForm;
 
     [SupplyParameterFromForm]
     public Review Review { get; set; } = new();
@@ -43,9 +44,29 @@
         review = Review;
     }
 
+    protected override void OnParametersSet()
+    {
+        // Reset review if it has values but Review parameter is empty (after form submission)
+        if (review.Rating != 0 || !string.IsNullOrEmpty(review.Text))
+        {
+            if (Review.Rating == 0 && string.IsNullOrEmpty(Review.Text))
+            {
+                review = new Review();
+            }
+            else
+            {
+                review = Review;
+            }
+        }
+    }
+
     async Task OnValidSubmit()
     {
         await OnSubmitReview.InvokeAsync(review);
+        review = new Review();
+        Review = new Review();
+        editForm?.EditContext?.MarkAsUnmodified();
+        StateHasChanged();
         NavigationManager.NavigateTo(NavigationManager.Uri);
     }
 }
