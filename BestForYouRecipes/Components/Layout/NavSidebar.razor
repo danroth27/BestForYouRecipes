@@ -1,8 +1,60 @@
-﻿<nav>
+﻿@inject AuthenticationService AuthService
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+
+<nav>
     <NavLink href="" Match="@NavLinkMatch.All" title="Home" class="ms-Icon ms-Icon--Home">
         <span>Home</span>
     </NavLink>
     <NavLink href="submit" title="Submit recipe" class="ms-Icon ms-Icon--EditListPencil">
         <span>Submit recipe</span>
     </NavLink>
+    @if (currentUser != null)
+    {
+        <div class="user-section">
+            <div class="user-info">
+                <span class="ms-Icon ms-Icon--Contact"></span>
+                <span>@currentUser.Username</span>
+            </div>
+            <button @onclick="HandleLogout" class="logout-button" title="Logout">
+                <span class="ms-Icon ms-Icon--SignOut"></span>
+                <span>Logout</span>
+            </button>
+        </div>
+    }
+    else
+    {
+        <NavLink href="login" title="Login" class="ms-Icon ms-Icon--Contact">
+            <span>Login</span>
+        </NavLink>
+        <NavLink href="signup" title="Sign up" class="ms-Icon ms-Icon--AddFriend">
+            <span>Sign up</span>
+        </NavLink>
+    }
 </nav>
+
+@code {
+    private UserSession? currentUser;
+
+    protected override async Task OnInitializedAsync()
+    {
+        currentUser = await AuthService.GetCurrentUserAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            currentUser = await AuthService.GetCurrentUserAsync();
+            StateHasChanged();
+        }
+    }
+
+    private async Task HandleLogout()
+    {
+        await AuthService.LogoutAsync();
+        currentUser = null;
+        Navigation.NavigateTo("/", forceLoad: true);
+    }
+}
+

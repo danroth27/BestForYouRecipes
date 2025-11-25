@@ -1,0 +1,96 @@
+@page "/login"
+@rendermode InteractiveServer
+@inject AuthenticationService AuthService
+@inject NavigationManager Navigation
+
+<PageTitle>Login - Best For You</PageTitle>
+
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1>Welcome Back</h1>
+            <p class="auth-subtitle">Sign in to continue to Best For You Recipes</p>
+        </div>
+
+        <EditForm Model="@loginModel" OnValidSubmit="@HandleLogin">
+            <DataAnnotationsValidator />
+            
+            <div class="form-group">
+                <label for="emailOrUsername">Email or Username</label>
+                <InputText id="emailOrUsername" @bind-Value="loginModel.EmailOrUsername" class="form-control" placeholder="Enter your email or username" />
+                <ValidationMessage For="@(() => loginModel.EmailOrUsername)" />
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <InputText type="password" id="password" @bind-Value="loginModel.Password" class="form-control" placeholder="Enter your password" />
+                <ValidationMessage For="@(() => loginModel.Password)" />
+            </div>
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="error-message">
+                    @errorMessage
+                </div>
+            }
+
+            @if (isLoading)
+            {
+                <button type="submit" class="auth-button" disabled>
+                    <span class="spinner"></span> Signing in...
+                </button>
+            }
+            else
+            {
+                <button type="submit" class="auth-button">Sign In</button>
+            }
+        </EditForm>
+
+        <div class="auth-footer">
+            <p>Don't have an account? <a href="/signup" class="auth-link">Sign up</a></p>
+        </div>
+    </div>
+</div>
+
+@code {
+    private LoginModel loginModel = new();
+    private string? errorMessage;
+    private bool isLoading = false;
+
+    private class LoginModel
+    {
+        [Required(ErrorMessage = "Email or username is required")]
+        public string EmailOrUsername { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Password is required")]
+        [MinLength(6, ErrorMessage = "Password must be at least 6 characters")]
+        public string Password { get; set; } = string.Empty;
+    }
+
+    private async Task HandleLogin()
+    {
+        errorMessage = null;
+        isLoading = true;
+        
+        try
+        {
+            var success = await AuthService.LoginAsync(loginModel.EmailOrUsername, loginModel.Password);
+            
+            if (success)
+            {
+                Navigation.NavigateTo("/", forceLoad: true);
+            }
+            else
+            {
+                errorMessage = "Invalid email/username or password. Please try again.";
+                isLoading = false;
+            }
+        }
+        catch
+        {
+            errorMessage = "An error occurred during login. Please try again.";
+            isLoading = false;
+        }
+    }
+}
+
